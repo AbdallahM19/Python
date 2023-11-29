@@ -1,0 +1,6 @@
+git clone https://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@github.com/AbdallahM19/alx-higher_level_programming.git
+
+git config --global user.email "abdallahmaabakar@gmail.com"
+git config --global user.name "AbdallahM19"
+
+git add . && git commit -m 'shell' && git push
