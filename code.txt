@@ -1,0 +1,9 @@
+افضل الاختصارات والاكواد المهمه
+
+# make any-line Ctrl + ظ
+
+print("Python")
+
+pycodestyle --first name.py
+pycodestyle --show-source --show-pep8 testing/data/E40.py
+pycodestyle --statistics -qq Python-2.5/Lib
