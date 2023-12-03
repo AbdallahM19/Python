@@ -1,75 +1,62 @@
 #include "lists.h"
-#include <stdlib.h>
-#include <stddef.h>
 
 /**
- * insert_node - inserts a number into a sorted singly linked list
- * @head: double pointer to head node of the linked list
- * @number: number to insert
- * Return: the address of the new node, or NULL if it failed
+ * rev_list - reverses linked list
+ * @head: pointer head of the linked list
+ * Return: new head of the reversed list
  */
-listint_t *insert_node(listint_t **head, int number)
+listint_t *rev_list(listint_t *head)
 {
-	listint_t *new_node = malloc(sizeof(listint_t));
-	listint_t *current = *head;
+	listint_t *prev = NULL;
+	listint_t *current = head;
+	listint_t *next = NULL;
 
-	if (!new_node)
-		return (NULL);
-	new_node->n = number;
-	new_node->next = NULL;
-	if (!current || new_node->n < current->n)
+	while (current != NULL)
 	{
-		new_node->next = current;
-		return(*head = new_node);
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
 	}
-	while (current)
-	{
-		if (!current->next || new_node->n < current->next->n)
-		{
-			new_node->next = current->next;
-			current->next = new_node;
-			return (current);
-		}
-		current = current->next;
-	}
-	return (NULL);
+	return (prev);
 }
 
-#include "lists.h"
-#include <stdlib.h>
-#include <stddef.h>
+/**
+ * compare_lists - compares two linked lists for equality
+ * @list1: pointer first linked list
+ * @list2: pointer second linked list
+ * Return: 1 if lists are equal, 0 if (not equal)
+ */
+int compare_lists(listint_t *list1, listint_t *list2)
+{
+	while (list1 != NULL && list2 != NULL)
+	{
+		if (list1->n != list2->n)
+			return (0);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+	return (list1 == NULL && list2 == NULL);
+}
 
 /**
- * insert_node - inserts a number into a sorted singly linked list
- * @head: double pointer to head node of the linked list
- * @number: number to insert
- * Return: the address of the new node, or NULL if it failed
+ * is_palindrome - checks if a singly linked list is a palindrome
+ * @head: double pointer to the head of the linked list
+ * Return: 1 if palindrome, 0 otherwise
  */
-listint_t *insert_node(listint_t **head, int number)
+int is_palindrome(listint_t **head)
 {
-	listint_t *new_node = malloc(sizeof(listint_t));
-	listint_t *current = *head;
+	listint_t *slow = *head;
+	listint_t *fast = *head;
+	listint_t *second_half = NULL;
 
-	if (!new_node)
-		return (NULL);
-
-	new_node->n = number;
-	new_node->next = NULL;
-	if (!current || new_node->n < current->n)
+	if (*head == NULL || (*head)->next == NULL)
+		return (1);
+	while (fast != NULL && fast->next != NULL)
 	{
-		new_node->next = current;
-		*head = new_node;
-		return (new_node);
+		slow = slow->next;
+		fast = fast->next->next;
 	}
-	while (current)
-	{
-		if (!current->next || new_node->n < current->next->n)
-		{
-			new_node->next = current->next;
-			current->next = new_node;
-			return (new_node);
-		}
-		current = current->next;
-	}
-	return (NULL);
+	second_half = rev_list(slow);
+	return (compare_lists(*head, second_half));
 }
